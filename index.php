@@ -34,7 +34,7 @@
              <br>
              <i class="fa fa-envelope-o"></i>&nbsp;  &nbsp;  congdanhdng@gmail.com
              <br>
-             Showroom : 347 Phạm Hùng,phường Hòa Xuân,Quận Cẩm Lệ,TP Đà Nẵng
+             Showroom : 347 Phạm Hùng, phường Hòa Xuân, Quận Cẩm Lệ, TP Đà Nẵng
          </div>
      </div>
  </div>
@@ -58,7 +58,7 @@
          <div class="col-lg-4 col-md-4 col-sm-4 ">
          </div>
          <div class="col-lg-4 col-md-4 col-sm-4 ">
-             Thôn Quang Châu,Xã Hòa Châu,huyện Hòa Vang TP Đà Nẵng.
+             Thôn Quang Châu, Xã Hòa Châu, Huyện Hòa Vang TP Đà Nẵng.
          </div>
      </div>
  </div>
