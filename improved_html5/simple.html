@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="simple.js"></script>
+<script src="simple.js?v=1"></script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 var sceneNum = 3;
@@ -91,6 +91,7 @@ function handleComplete(evt,comp) {
 	}
 	
 	exportRoot = new lib.simple();
+	console.log(exportRoot);
 	stage = new lib.Stage(canvas);
 	stage.enableMouseOver();	
 	//Registers the "tick" event listener.
