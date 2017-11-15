@@ -132,6 +132,7 @@
         var sndVar = false;
         var resetSound = false;
         var loader, lib;
+        var sceneNo = 0;
 
         function init() {
             canvas = document.getElementById("canvas");
@@ -295,6 +296,7 @@
 
             function nextScene() {
                 // console.log("nextScene");
+                sceneNo++;
                 mainCtrlOff();
                 enablePause();
                 if (currentScene <= sceneNum) {
@@ -313,6 +315,16 @@
             }
 
             function prevScene() {
+                sceneNo--;
+                if (sceneNo == 0) {
+                    on_off_78 = false;
+                    on_off_108 = false;
+                }
+                if (sceneNo == 1) {
+                    on_off_108 = false;
+                    on_off_159 = false;
+                }
+
                 enablePause();
                 if (currentScene > 1) {
                     currentScene--;
