@@ -117,6 +117,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,24,26);
 p.nominalBounds = new cjs.Rectangle(0,0,24,26);
 
 
+(lib.play = function() {
+	this.initialize(img.play);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,213,213);
+
+
 (lib.subtitleiconblue = function() {
 	this.initialize(img.subtitleiconblue);
 }).prototype = p = new cjs.Bitmap();
@@ -1292,6 +1298,41 @@ p.nominalBounds = new cjs.Rectangle(-7.3,-8.1,14.6,16.3);
 	this.timeline.addTween(cjs.Tween.get(this.shape_1).wait(1));
 
 }).prototype = getMCSymbolPrototype(lib.homeicon, new cjs.Rectangle(-14.7,-14.1,29.8,28.6), null);
+
+
+(lib.play_bg = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		/* this.onRelease = function() {
+		};
+		this.useHandCursor = false;*/
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+
+	// レイヤー 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#333333").s().p("Eg15AeFMAAAg8JMBrzAAAMAAAA8Jg");
+	this.shape.setTransform(345,192.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.play_bg, new cjs.Rectangle(0,0,690,385), null);
+
+
+(lib.play_1 = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// レイヤー 1
+	this.instance = new lib.play();
+	this.instance.parent = this;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.play_1, new cjs.Rectangle(0,0,213,213), null);
 
 
 (lib.top_panel_bg = function(mode,startPosition,loop) {
@@ -2726,6 +2767,37 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 }).prototype = getMCSymbolPrototype(lib.main_control_btns, new cjs.Rectangle(-0.3,-12.6,432.1,71.3), null);
 
 
+(lib.NextFileBtn = function(mode,startPosition,loop) {
+if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_4 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).wait(4).call(this.frame_4).wait(16));
+
+	// レイヤー 1
+	this.instance = new lib.play_1();
+	this.instance.parent = this;
+	this.instance.setTransform(345,192.5,1,1,0,0,0,106.5,106.5);
+	this.instance.alpha = 0;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({alpha:1},4).wait(10).to({alpha:0},5).wait(1));
+
+	// レイヤー 2
+	this.instance_1 = new lib.play_bg();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(345,192.5,1,1,0,0,0,345,192.5);
+	this.instance_1.alpha = 0.09;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(20));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,690,385);
+
+
 (lib.操作説明txt_all = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -3019,8 +3091,8 @@ p.nominalBounds = new cjs.Rectangle(-165,-27,228.9,54);
 if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{scene_1:3,scene_2:79,scene_3:109});
 
 	// timeline functions:
-	this.frame_0 = function() {
-		this.gotoAndPlay(5);
+	this.frame_3 = function() {
+		this.stop();
 	}
 	this.frame_78 = function() {
 		this.stop();
@@ -3036,7 +3108,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{sce
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(78).call(this.frame_78).wait(30).call(this.frame_108).wait(51).call(this.frame_159).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(3).call(this.frame_3).wait(75).call(this.frame_78).wait(30).call(this.frame_108).wait(51).call(this.frame_159).wait(1));
 
 	// メッセージ
 	this.next_scene = new lib.MSG_pause();
@@ -5297,6 +5369,14 @@ p.nominalBounds = null;
 (lib.swif_vdd00101_0 = function(mode,startPosition,loop) {
 if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
+	// play button
+	this.play_btn = new lib.NextFileBtn();
+	this.play_btn.name = "play_btn";
+	this.play_btn.parent = this;
+	this.play_btn.setTransform(106.5,106.5,1,1,0,0,0,106.5,106.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.play_btn).wait(283));
+
 	// Main Control Buttons
 	this.main_control_btns = new lib.main_control_btns();
 	this.main_control_btns.name = "main_control_btns";
@@ -5314,7 +5394,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 	this.timeline.addTween(cjs.Tween.get(this.main_mc).wait(283));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(438.6,518.6,518.5,85.6);
+p.nominalBounds = new cjs.Rectangle(345,225,690,385);
 // library properties:
 lib.properties = {
 	id: '0781A24DE5C6E64EB91C9901D9F4F8DE',
@@ -5342,6 +5422,7 @@ lib.properties = {
 		{src:"images/pauseiconblue.png", id:"pauseiconblue"},
 		{src:"images/playicongreen.png", id:"playicongreen"},
 		{src:"images/playicongreen2.png", id:"playicongreen2"},
+		{src:"images/play.png", id:"play"},
 		{src:"images/subtitleiconblue.png", id:"subtitleiconblue"},
 		{src:"images/subtitleiconred.png", id:"subtitleiconred"},
 		{src:"images/subtitleredicon2.png", id:"subtitleredicon2"}

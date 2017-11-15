@@ -8,297 +8,274 @@
 	5. Remove unnecessary comments before creating your template.
 -->
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="authoring-tool" content="Adobe_Animate_CC">
-    <title>simple</title>
-    <!-- write your code here -->
-    <style>
-        #animation_container {
-            position: absolute;
-            margin: auto;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-        }
-        
-        body {
-            -webkit-user-select: none;
-            /* Chrome/Safari */
-            -moz-user-select: none;
-            /* Firefox */
-            -ms-user-select: none;
-            /* IE10+ */
-            /* Rules below not implemented in browsers yet */
-            -o-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-    </style>
-    <script src="libs/createjs-2015.11.26.min.js"></script>
-    <script src="swif_vdd00101_0.js?v=2"></script>
-    <script>
-        var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
-        var sceneNum = 3;
-        var currentScene = 1;
-        var instanceSound;
-        var mp3_path = "audio/vdd101_0.mp3";
-        var sndVar = false;
-        var resetSound = false;
-        var loader
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>simple</title>
+<!-- write your code here -->
+<style>
+  #animation_container {
+	position:absolute;
+	margin:auto;
+	left:0;right:0;
+	top:0;bottom:0;
+  }
 
-        function init() {
-            canvas = document.getElementById("canvas");
-            anim_container = document.getElementById("animation_container");
-            dom_overlay_container = document.getElementById("dom_overlay_container");
-            var comp = AdobeAn.getComposition("0781A24DE5C6E64EB91C9901D9F4F8DE");
-            var lib = comp.getLibrary();
-            loader = new createjs.LoadQueue(true);
-            loader.installPlugin(createjs.Sound);
-            loader.loadFile({
-                src: mp3_path,
-                type: "SOUND"
-            });
-            loader.addEventListener("fileload", function(evt) {
-                handleFileLoad(evt, comp)
-            });
-            loader.addEventListener("complete", function(evt) {
-                handleComplete(evt, comp)
-            });
-            var lib = comp.getLibrary();
-            loader.loadManifest(lib.properties.manifest);
-            handleTouch();
-        }
+  body{
+		-webkit-user-select: none; /* Chrome/Safari */        
+		-moz-user-select: none; /* Firefox */ 
+		-ms-user-select: none; /* IE10+ */ 
 
-        function handleFileLoad(evt, comp) {
-            var images = comp.getImages();
-            if (evt && (evt.item.type == "image")) {
-                images[evt.item.id] = evt.result;
-            }
-        }
+		/* Rules below not implemented in browsers yet */ 
+		-o-user-select: none;
+		user-select: none;
+	}
 
-        function handleTouch(event) {
-            createjs.WebAudioPlugin.playEmptySound();
-        }
+</style>
+<script src="libs/createjs-2015.11.26.min.js"></script>
+<script src="swif_vdd00101_0.js?v=2"></script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+var sceneNum = 3;
+var currentScene = 1;
+var instanceSound;
+var mp3_path = "audio/vdd101_0.mp3";
+var sndVar = false;
+var resetSound = false;
+var loader
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("0781A24DE5C6E64EB91C9901D9F4F8DE");
+	var lib=comp.getLibrary();
+	loader = new createjs.LoadQueue(true);
+	loader.installPlugin(createjs.Sound);
+	loader.loadFile({
+            src: mp3_path,
+            type: "SOUND"
+	});
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+	
+}
 
-        function soundControl() {
-            // sound only play in currentScene = 1
-            if (currentScene == 1) {
-                if (resetSound) {
-                    instanceSound.play();
-                    resetSound = false;
-                } else {
-                    if (!sndVar) {
-                        sndVar = true;
-                    } else {
-                        sndVar = false;
-                    }
-                    instanceSound.paused = sndVar;
-                }
-            } else {
-                resetSound = true;
-                instanceSound.stop();
-            }
-        }
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
 
-        function handleComplete(evt, comp) {
-            //This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
-            var lib = comp.getLibrary();
-            var ss = comp.getSpriteSheet();
-            var queue = evt.target;
-            var ssMetadata = lib.ssMetadata;
-            for (i = 0; i < ssMetadata.length; i++) {
-                ss[ssMetadata[i].name] = new createjs.SpriteSheet({
-                    "images": [queue.getResult(ssMetadata[i].name)],
-                    "frames": ssMetadata[i].frames
-                })
-            }
+function soundControl(){
+	// sound only play in currentScene = 1
+	if(currentScene == 1){
+		if(resetSound){
+			instanceSound.play();
+			resetSound = false;
+		}else{
+			if(!sndVar){
+				sndVar = true;
+			}else{
+				sndVar = false;
+			}
+			instanceSound.paused = sndVar;
+		}
+	}else{
+		resetSound = true;
+		instanceSound.stop();
+	}
+}
 
-            exportRoot = new lib.swif_vdd00101_0();
-            console.log(exportRoot);
-            stage = new lib.Stage(canvas);
-            stage.enableMouseOver();
-            //Registers the "tick" event listener.
-            fnStartAnimation = function() {
-                stage.addChild(exportRoot);
-                var e = new Event('touchstart');
-                window.dispatchEvent(e);
-                instanceSound = createjs.Sound.play(mp3_path);
-                instanceSound.volume = 1.0;
-                createjs.Ticker.setFPS(lib.properties.fps);
-                createjs.Ticker.addEventListener("tick", stage);
-                //var button_next_helper = new createjs.ButtonHelper(exportRoot.main_control_btns.main_control_next);
-                //var button_prev_helper = new createjs.ButtonHelper(exportRoot.main_control_btns.main_control_prev);
-            }
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	
+	exportRoot = new lib.swif_vdd00101_0();
+	console.log(exportRoot);
+	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.setFPS(lib.properties.fps);
+		createjs.Ticker.addEventListener("tick", stage);
+		//var button_next_helper = new createjs.ButtonHelper(exportRoot.main_control_btns.main_control_next);
+		//var button_prev_helper = new createjs.ButtonHelper(exportRoot.main_control_btns.main_control_prev);
+	}	 
+	
+	exportRoot.main_mc.top_panel.main_control_on.visible = false;
+	exportRoot.main_mc.top_panel.main_control_off.addEventListener('click',mainCtrlOff);
+	exportRoot.main_mc.top_panel.main_control_on.addEventListener('click',mainCtrlOn);
+	exportRoot.main_control_btns.main_control_subtitle_on.addEventListener('click',subtitleOn);
+	exportRoot.main_control_btns.main_control_subtitle_off.addEventListener('click',subtitleOff);
+	exportRoot.main_control_btns.main_control_next.addEventListener('click',nextScene);
+	exportRoot.main_control_btns.main_control_prev.addEventListener('click',prevScene);
+	exportRoot.main_control_btns.main_control_subtitle_off.visible = false;
+	exportRoot.main_control_btns.main_control_subtitle_on.visible = true;
+	exportRoot.main_control_btns.main_control_prev.visible = false;
+	exportRoot.main_control_btns.main_control_play.visible = false;
+	exportRoot.main_mc.subtitle_bg.visible = false;
+	exportRoot.main_control_btns.main_control_pause.addEventListener('click',pauseMainMC);
+	exportRoot.play_btn.addEventListener('click',startAnimation);
+	exportRoot.main_control_btns.main_control_play.addEventListener('click',playMainMC);
+	exportRoot.main_control_btns.main_control_close.addEventListener('click',mainCtrlOff);
 
-            exportRoot.main_mc.top_panel.main_control_on.visible = false;
-            exportRoot.main_mc.top_panel.main_control_off.addEventListener('click', mainCtrlOff);
-            exportRoot.main_mc.top_panel.main_control_on.addEventListener('click', mainCtrlOn);
-            exportRoot.main_control_btns.main_control_subtitle_on.addEventListener('click', subtitleOn);
-            exportRoot.main_control_btns.main_control_subtitle_off.addEventListener('click', subtitleOff);
-            exportRoot.main_control_btns.main_control_next.addEventListener('click', nextScene);
-            exportRoot.main_control_btns.main_control_prev.addEventListener('click', prevScene);
-            exportRoot.main_control_btns.main_control_subtitle_off.visible = false;
-            exportRoot.main_control_btns.main_control_subtitle_on.visible = true;
-            exportRoot.main_control_btns.main_control_prev.visible = false;
-            exportRoot.main_control_btns.main_control_play.visible = false;
-            exportRoot.main_mc.subtitle_bg.visible = false;
-            exportRoot.main_control_btns.main_control_pause.addEventListener('click', pauseMainMC);
-            exportRoot.main_control_btns.main_control_play.addEventListener('click', playMainMC);
-            exportRoot.main_control_btns.main_control_close.addEventListener('click', mainCtrlOff);
+	createjs.Ticker.addEventListener("tick", playPauseInit);
 
-            createjs.Ticker.addEventListener("tick", playPauseInit);
+	function startAnimation(){
+		instanceSound = createjs.Sound.play(mp3_path);
+		instanceSound.volume = 1.0;
+		exportRoot.main_mc.gotoAndPlay(6);
+		exportRoot.play_btn.visible = false;
+	}
 
-            function subtitleOn() {
-                exportRoot.main_mc.subtitle_bg.visible = true;
-                exportRoot.main_control_btns.main_control_subtitle_off.visible = true;
-                exportRoot.main_control_btns.main_control_subtitle_on.visible = false;
-            }
+	function subtitleOn(){
+		exportRoot.main_mc.subtitle_bg.visible = true;
+		exportRoot.main_control_btns.main_control_subtitle_off.visible = true;
+		exportRoot.main_control_btns.main_control_subtitle_on.visible = false;
+	}
 
-            function subtitleOff() {
-                exportRoot.main_control_btns.main_control_subtitle_off.visible = false;
-                exportRoot.main_control_btns.main_control_subtitle_on.visible = true;
-                exportRoot.main_mc.subtitle_bg.visible = false;
-            }
+	function subtitleOff(){
+		exportRoot.main_control_btns.main_control_subtitle_off.visible = false;
+		exportRoot.main_control_btns.main_control_subtitle_on.visible = true;
+		exportRoot.main_mc.subtitle_bg.visible = false;
+	}
 
-            function mainCtrlOff() {
-                exportRoot.main_control_btns.alpha = 0;
-                exportRoot.main_mc.top_panel.main_control_on.visible = true;
-                exportRoot.main_mc.top_panel.main_control_off.visible = false;
-            }
+	function mainCtrlOff(){
+		exportRoot.main_control_btns.alpha = 0;
+		exportRoot.main_mc.top_panel.main_control_on.visible = true;
+		exportRoot.main_mc.top_panel.main_control_off.visible = false;
+	}
 
-            function mainCtrlOn() {
-                exportRoot.main_control_btns.alpha = 1;
-                exportRoot.main_mc.top_panel.main_control_on.visible = false;
-                exportRoot.main_mc.top_panel.main_control_off.visible = true;
-            }
+	function mainCtrlOn(){
+		exportRoot.main_control_btns.alpha = 1;
+		exportRoot.main_mc.top_panel.main_control_on.visible = false;
+		exportRoot.main_mc.top_panel.main_control_off.visible = true;
+	}
 
-            function nextScene() {
-                enablePause();
-                if (currentScene <= sceneNum) {
-                    currentScene++;
-                    exportRoot.main_mc.gotoAndPlay('scene_' + currentScene);
-                    if (currentScene > 1) {
-                        exportRoot.main_control_btns.main_control_prev.visible = true;
-                    }
-                    if (currentScene == sceneNum) {
-                        exportRoot.main_control_btns.main_control_next.visible = false;
-                    }
-                } else {
-                    exportRoot.main_control_btns.main_control_next.visible = false;
-                }
-                soundControl();
-            }
+	function nextScene(){
+		enablePause();
+		if(currentScene<=sceneNum){
+			currentScene++;
+			exportRoot.main_mc.gotoAndPlay('scene_'+currentScene);
+			if(currentScene>1){
+				exportRoot.main_control_btns.main_control_prev.visible = true;
+			}
+			if(currentScene==sceneNum){
+				exportRoot.main_control_btns.main_control_next.visible = false;
+			}
+		}else{
+			exportRoot.main_control_btns.main_control_next.visible = false;
+		}
+		soundControl();
+	}
+	
+	function prevScene(){
+		enablePause();
+		if(currentScene>1){
+			currentScene--;
+			exportRoot.main_mc.gotoAndPlay('scene_'+currentScene);
+			if(currentScene<sceneNum){
+				exportRoot.main_control_btns.main_control_next.visible = true;
+			}
+			if(currentScene==1){
+				exportRoot.main_control_btns.main_control_prev.visible = false;
+			}
+		}else{
+			exportRoot.main_control_btns.main_control_prev.visible = false;
+		}
+		soundControl();
+	}
 
-            function prevScene() {
-                enablePause();
-                if (currentScene > 1) {
-                    currentScene--;
-                    exportRoot.main_mc.gotoAndPlay('scene_' + currentScene);
-                    if (currentScene < sceneNum) {
-                        exportRoot.main_control_btns.main_control_next.visible = true;
-                    }
-                    if (currentScene == 1) {
-                        exportRoot.main_control_btns.main_control_prev.visible = false;
-                    }
-                } else {
-                    exportRoot.main_control_btns.main_control_prev.visible = false;
-                }
-                soundControl();
-            }
+	function enablePause(){
+		exportRoot.main_control_btns.main_control_pause.visible = true;
+		exportRoot.main_control_btns.main_control_play.visible = false;
+	}
 
-            function enablePause() {
-                exportRoot.main_control_btns.main_control_pause.visible = true;
-                exportRoot.main_control_btns.main_control_play.visible = false;
-            }
+	function playPauseInit(){
+		if(exportRoot.main_mc.paused){
+			exportRoot.main_control_btns.main_control_pause.visible = false;
+			exportRoot.main_control_btns.main_control_play.visible = true;
+		}else{
+			exportRoot.main_control_btns.main_control_pause.visible = true;
+			exportRoot.main_control_btns.main_control_play.visible = false;
+		}
+	}
 
-            function playPauseInit() {
-                if (exportRoot.main_mc.paused) {
-                    exportRoot.main_control_btns.main_control_pause.visible = false;
-                    exportRoot.main_control_btns.main_control_play.visible = true;
-                } else {
-                    exportRoot.main_control_btns.main_control_pause.visible = true;
-                    exportRoot.main_control_btns.main_control_play.visible = false;
-                }
-            }
-
-            function pauseMainMC() {
-                soundControl();
-                exportRoot.main_mc.stop();
-                exportRoot.main_control_btns.main_control_play.visible = true;
-                exportRoot.main_control_btns.main_control_pause.visible = false;
-            }
-
-            function playMainMC() {
-                soundControl();
-                exportRoot.main_control_btns.main_control_play.visible = false;
-                exportRoot.main_control_btns.main_control_pause.visible = true;
-                exportRoot.main_mc.play();
-            }
+	function pauseMainMC(){
+		soundControl();
+		exportRoot.main_mc.stop();
+		exportRoot.main_control_btns.main_control_play.visible = true;
+		exportRoot.main_control_btns.main_control_pause.visible = false;
+	}
+	
+	function playMainMC(){
+		soundControl();
+		exportRoot.main_control_btns.main_control_play.visible = false;
+		exportRoot.main_control_btns.main_control_pause.visible = true;
+		exportRoot.main_mc.play();
+	}
 
 
 
-            //Code to support hidpi screens and responsive scaling.
-            function makeResponsive(isResp, respDim, isScale, scaleType) {
-                var lastW, lastH, lastS = 1;
-                window.addEventListener('resize', resizeCanvas);
-                resizeCanvas();
-
-                function resizeCanvas() {
-                    var w = lib.properties.width,
-                        h = lib.properties.height;
-                    var iw = window.innerWidth,
-                        ih = window.innerHeight;
-                    var pRatio = window.devicePixelRatio || 1,
-                        xRatio = iw / w,
-                        yRatio = ih / h,
-                        sRatio = 1;
-                    if (isResp) {
-                        if ((respDim == 'width' && lastW == iw) || (respDim == 'height' && lastH == ih)) {
-                            sRatio = lastS;
-                        } else if (!isScale) {
-                            if (iw < w || ih < h)
-                                sRatio = Math.min(xRatio, yRatio);
-                        } else if (scaleType == 1) {
-                            sRatio = Math.min(xRatio, yRatio);
-                        } else if (scaleType == 2) {
-                            sRatio = Math.max(xRatio, yRatio);
-                        }
-                    }
-                    canvas.width = w * pRatio * sRatio;
-                    canvas.height = h * pRatio * sRatio;
-                    canvas.style.width = dom_overlay_container.style.width = anim_container.style.width = w * sRatio + 'px';
-                    canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = h * sRatio + 'px';
-                    stage.scaleX = pRatio * sRatio;
-                    stage.scaleY = pRatio * sRatio;
-                    lastW = iw;
-                    lastH = ih;
-                    lastS = sRatio;
-                    stage.tickOnUpdate = false;
-                    stage.update();
-                    stage.tickOnUpdate = true;
-                }
-            }
-            makeResponsive(true, 'both', true, 1);
-            AdobeAn.compositionLoaded(lib.properties.id);
-            fnStartAnimation();
-        }
-
-        function playPauseBtnInit() {
-            exportRoot.main_control_btns.main_control_play.alpha = 0;
-        }
-    </script>
-    <!-- write your code here -->
+	//Code to support hidpi screens and responsive scaling.
+	function makeResponsive(isResp, respDim, isScale, scaleType) {		
+		var lastW, lastH, lastS=1;		
+		window.addEventListener('resize', resizeCanvas);		
+		resizeCanvas();		
+		function resizeCanvas() {			
+			var w = lib.properties.width, h = lib.properties.height;			
+			var iw = window.innerWidth, ih=window.innerHeight;			
+			var pRatio = window.devicePixelRatio || 1, xRatio=iw/w, yRatio=ih/h, sRatio=1;			
+			if(isResp) {                
+				if((respDim=='width'&&lastW==iw) || (respDim=='height'&&lastH==ih)) {                    
+					sRatio = lastS;                
+				}				
+				else if(!isScale) {					
+					if(iw<w || ih<h)						
+						sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==1) {					
+					sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==2) {					
+					sRatio = Math.max(xRatio, yRatio);				
+				}			
+			}			
+			canvas.width = w*pRatio*sRatio;			
+			canvas.height = h*pRatio*sRatio;
+			canvas.style.width = dom_overlay_container.style.width = anim_container.style.width =  w*sRatio+'px';				
+			canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = h*sRatio+'px';
+			stage.scaleX = pRatio*sRatio;			
+			stage.scaleY = pRatio*sRatio;			
+			lastW = iw; lastH = ih; lastS = sRatio;            
+			stage.tickOnUpdate = false;            
+			stage.update();            
+			stage.tickOnUpdate = true;		
+		}
+	}
+	makeResponsive(true,'both',true,1);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+function playPauseBtnInit(){
+	//exportRoot.main_control_btns.main_control_play.alpha = 0;	
+}
+</script>
+<!-- write your code here -->
 </head>
-
 <body onload="init();" style="margin:0px;">
-    <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:690px; height:450px">
-        <canvas id="canvas" width="690" height="450" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
-        <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:690px; height:450px; position: absolute; left: 0px; top: 0px; display: block;">
-        </div>
-    </div>
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:690px; height:450px">
+		<canvas id="canvas" width="690" height="450" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:690px; height:450px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
 </body>
-
 </html>
