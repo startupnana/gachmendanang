@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2-1-1 ご伝言をお預かりしましょうか？ ①</title>
+<script src="../common/libs/createjs-2015.11.26.min.js"></script>
+<script src="../common/js/common_symbols.js"></script>
+<link rel="stylesheet" href="../common/css/main.css">
+<script src="js/vhm211_sm.js"></script>
+<script>
+var options = {
+	sceneNum:12, // total scence
+	mcid: '36582C73E22E884CA8D8121DEB7D297D', // id of animation
+	verticalWidth:690, // width in the vertical mode
+	verticalHeight:823, // height in the vertical mode
+	horizontalWidth:690, // width in the horizontal mode
+	horizontalHeight:450, // height in the horizontal mode
+	sectionName:'vhm211_sm', // name of parent movieClip in each section
+	vertical:'auto', // set default screen mode, false is the horizontal mode, true is the vertical mode, "auto" is auto detect follow screen
+	// sounds: {
+	// 	path:"sounds/",
+	// 	manifest: [
+	// 		{id: "_211_01wav", src: {mp3:"_211_01wav.mp3"}},
+	// 		{id: "_211_02wav", src: {mp3:"_211_02wav.mp3"}},
+	// 		{id: "_211_03wav", src: {mp3:"_211_03wav.mp3"}},
+	// 		{id: "_211_openingwav", src: {mp3:"_211_openingwav.mp3"}},
+	// 		{id: "_211_Phrasewav", src: {mp3:"_211_Phrasewav.mp3"}},
+	// 		{id: "_211_Word01wav", src: {mp3:"_211_Word01wav.mp3"}},
+	// 		{id: "_211_Word02wav", src: {mp3:"_211_Word02wav.mp3"}},
+	// 		{id: "_211_Word03wav", src: {mp3:"_211_Word03wav.mp3"}},
+	// 		{id: "bowwowwav", src: {mp3:"bowwowwav.mp3"}},
+	// 		{id: "kiroriro", src: {mp3:"kiroriro.mp3"}},
+	// 		{id: "phonewav", src: {mp3:"phonewav.mp3"}},
+	// 		{id: "Step1_endingwav", src: {mp3:"Step1_endingwav.mp3"}},
+	// 		{id: "Step1_title01wav", src: {mp3:"Step1_title01wav.mp3"}},
+	// 		{id: "Step2_title01wav", src: {mp3:"Step2_title01wav.mp3"}},
+	// 		{id: "Step2_title02wav", src: {mp3:"Step2_title02wav.mp3"}}
+	// 	]
+	// }
+};
+</script>
+<script src="../common/js/main.js"></script>
+</head>
+<body onload="init(options);" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:100%; height:auto">
+		<canvas id="canvas" width="690" height="430" style="position: absolute; background-color:rgba(255, 255, 255, 1.00); display: none;"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:690px; height:430px; position: absolute; left: 0px; top: 0px; display: none;"></div>
+		<div class="preload" id='_preload_div_'><span></span><img src=../common/images/loading.gif /></div>
+	</div>
+</body>
+</html>
