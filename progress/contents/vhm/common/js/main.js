@@ -226,6 +226,10 @@ function handleComplete(evt,comp,anim_options) {
 		if(instanceSound){
 			instanceSound.stop();
 		}
+		var menuStt = getCookie('mainMenu');
+		if(!menuStt){
+			mainCtrlOff();
+		}
 		var currentLabel = Number((currentMc.timeline.getCurrentLabel()).substr(6,3));
 		if (currentLabel < animOptions.sceneNum) {
 			currentLabel++;
@@ -242,6 +246,10 @@ function handleComplete(evt,comp,anim_options) {
 	function prevScene(){
 		enablePause();
 		unBlinkNext();
+		var menuStt = getCookie('mainMenu');
+		if(!menuStt){
+			mainCtrlOff();
+		}
 		if(instanceSound){
 			instanceSound.stop();
 		}
