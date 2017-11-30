@@ -21,6 +21,7 @@ var currentMode = 'horizontal';
 var mainctrl_y;
 var play_y;
 var subtite_y;
+var start = false;
 
 function windowRotate(){
 	var windowWidth = window.innerWidth;
@@ -95,8 +96,10 @@ function rotateHandle(_vertical){
 		currentMc.JIMAKU.y = 780;
 		exportRoot.main_control_btns.y = animOptions.verticalHeight - 92; 
 		exportRoot.play_btn.play_img.y = 400;
-		currentMc.thumb_vertical.visible = true;
-		currentMc.thumb_horizontal.visible = false;
+		if(!start){
+			currentMc.thumb_vertical.visible = true;
+			currentMc.thumb_horizontal.visible = false;
+		}
 	}else{
 		containerDiv.style.height = CVheight+'px';	
 		currentMode = 'horizontal';
@@ -104,8 +107,10 @@ function rotateHandle(_vertical){
 		currentMc.horizontal.visible = true;
 		stage.canvas.width = animOptions.horizontalWidth;
 		stage.canvas.height = animOptions.horizontalHeight;
-		currentMc.thumb_horizontal.visible = true;
-		currentMc.thumb_vertical.visible = false;
+		if(!start){
+			currentMc.thumb_horizontal.visible = true;
+			currentMc.thumb_vertical.visible = false;
+		}
 		if(animOptions.fitWidth){
 			canvas.className = "";
 		}else{
@@ -208,6 +213,7 @@ function handleComplete(evt,comp,anim_options) {
 		exportRoot.removeChild(exportRoot.play_btn);
 		currentMc.thumb_vertical.visible = false;
 		currentMc.thumb_horizontal.visible = false;
+		start = true;
 		var menuStt = getCookie('mainMenu');
 		if(menuStt){
 			mainCtrlOn();
