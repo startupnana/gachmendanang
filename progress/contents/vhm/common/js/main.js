@@ -8,7 +8,8 @@ var animOptions = {
 	horizontalHeight:0, // height in the horizontal mode
 	sectionName:'', // name of parent movieClip in each section
 	vertical:false, // true is the vertical mode, false is the horizontal mode
-	sounds:{}
+	sounds:{},
+	fitWidth:false // fit size follow width: false is follow screen's height, true is follow screen's width
 };
 
 var section = 'new lib.'+animOptions.sectionName+'()';
@@ -24,16 +25,17 @@ var subtite_y;
 function windowRotate(){
 	var windowWidth = window.innerWidth;
 	var windowHeight = window.innerHeight;
-	setTimeout(function(){
-		if(windowWidth>windowHeight){
-			rotateHandle(false);
-		}else{
-			rotateHandle(true);
-		}
-	}, 100);
+	if(windowWidth>windowHeight){
+		rotateHandle(false);
+	}else{
+		rotateHandle(true);
+	}
+	
 }
 
-window.addEventListener("resize", windowRotate);
+window.onresize = function(){
+	windowRotate();
+};
 
 function loadNextMC(id){
 	var comp=AdobeAn.getComposition(id); /// example: 3DED92BA2B85C1499B6F52630496A342
@@ -79,8 +81,12 @@ function rotateHandle(_vertical){
 		currentMc.horizontal.mode = 'SYNCHED';
 		currentMc.vertical.mode = 'SYNCHED';
 	}, 100);
+	var CVheight = window.innerHeight;
+	var containerDiv = document.getElementById('animation_container');
 	// console.log(currentMc.JIMAKU.y);
 	if(_vertical){
+		containerDiv.style.height = 'auto';	
+		canvas.className = "";
 		currentMode = 'vertical';
 		currentMc.vertical.visible = true;
 		currentMc.horizontal.visible = false;
@@ -89,19 +95,26 @@ function rotateHandle(_vertical){
 		currentMc.JIMAKU.y = 780;
 		exportRoot.main_control_btns.y = animOptions.verticalHeight - 92; 
 		exportRoot.play_btn.play_img.y = 400;
+		currentMc.thumb_vertical.visible = true;
+		currentMc.thumb_horizontal.visible = false;
 	}else{
+		containerDiv.style.height = CVheight+'px';	
 		currentMode = 'horizontal';
 		currentMc.vertical.visible = false;
 		currentMc.horizontal.visible = true;
 		stage.canvas.width = animOptions.horizontalWidth;
 		stage.canvas.height = animOptions.horizontalHeight;
+		currentMc.thumb_horizontal.visible = true;
+		currentMc.thumb_vertical.visible = false;
+		if(animOptions.fitWidth){
+			canvas.className = "";
+		}else{
+			canvas.className = "fit-height";
+		}
 		currentMc.JIMAKU.y = subtite_y;
 		exportRoot.main_control_btns.y = mainctrl_y; 
 		exportRoot.play_btn.play_img.y = play_y;
 	}
-	var CVheight = canvas.height;
-	var containerDiv = document.getElementById('animation_container')
-	containerDiv.style.height = CVheight+'px';
 	
 	//makeResponsive(true,'both',true,1);	
 }
@@ -121,7 +134,7 @@ function handleLoadComplete(evt,comp) {
 	setTimeout(function(){
 		exportRoot.children.unshift(mc1);
 		subtite_y = exportRoot.children[0].JIMAKU.y;
-		exportRoot.children[0].gotoAndStop(6);
+		//exportRoot.children[0].gotoAndStop(6);
 		if(animOptions.vertical){
 			if(animOptions.vertical==="auto"){
 				windowRotate();
@@ -171,8 +184,8 @@ function handleComplete(evt,comp,anim_options) {
 	stage.enableMouseOver();	
 	//Registers the "tick" event listener.
 	exportRoot.top_panel.main_control_on.visible = true;
-	exportRoot.top_panel.main_control_off.addEventListener('click', mainCtrlOff);
-	exportRoot.top_panel.main_control_on.addEventListener('click', mainCtrlOn);
+	exportRoot.top_panel.main_control_off.addEventListener('click', mainCtrlSetOff);
+	exportRoot.top_panel.main_control_on.addEventListener('click', mainCtrlSetOn);
 	exportRoot.main_control_btns.main_control_subtitle_on.addEventListener('click', subtitleOn);
 	exportRoot.main_control_btns.main_control_subtitle_off.addEventListener('click', subtitleOff);
 	exportRoot.main_control_btns.main_control_next.addEventListener('click', nextScene);
@@ -188,10 +201,17 @@ function handleComplete(evt,comp,anim_options) {
 	mainctrl_y = exportRoot.main_control_btns.y;
 	exportRoot.main_control_btns.visible = false;
 	play_y = exportRoot.play_btn.play_img.y;
+
 	function startAnimation(){
 		currentMc.gotoAndPlay(3);
 		currentMc.JIMAKU.visible = false;
 		exportRoot.removeChild(exportRoot.play_btn);
+		currentMc.thumb_vertical.visible = false;
+		currentMc.thumb_horizontal.visible = false;
+		var menuStt = getCookie('mainMenu');
+		if(menuStt){
+			mainCtrlOn();
+		}
 	}
 
 	function nextScene(){
@@ -201,17 +221,15 @@ function handleComplete(evt,comp,anim_options) {
 			instanceSound.stop();
 		}
 		var currentLabel = Number((currentMc.timeline.getCurrentLabel()).substr(6,3));
-		if (currentLabel <= animOptions.sceneNum) {
+		if (currentLabel < animOptions.sceneNum) {
 			currentLabel++;
 			currentMc.gotoAndPlay('label_' + currentLabel);
 			if (currentLabel > 1) {
 				exportRoot.main_control_btns.main_control_prev.visible = true;
 			}
-			if (currentLabel == animOptions.sceneNum) {
-				//exportRoot.main_control_btns.main_control_next.visible = false;
-			}
 		} else {
 			exportRoot.main_control_btns.main_control_next.visible = false;
+			exportRoot.main_control_btns.main_control_next.removeEventListener('click', nextScene);
 		}
 	}
 	
@@ -233,12 +251,8 @@ function handleComplete(evt,comp,anim_options) {
 			}
 		} else {
 			exportRoot.main_control_btns.main_control_prev.visible = false;
-		}	
-	}
-
-	function enablePause(){
-		exportRoot.main_control_btns.main_control_pause.visible = true;
-		exportRoot.main_control_btns.main_control_play.visible = false;
+		}
+		exportRoot.main_control_btns.main_control_next.addEventListener('click', nextScene);	
 	}
 
 	function pauseMainMC(){
@@ -329,10 +343,13 @@ function playPauseInit(){
 }
 
 function mainCtrlOff(){
-	exportRoot.main_control_btns.alpha = 0;
-	exportRoot.main_control_btns.visible = false;
-	exportRoot.top_panel.main_control_on.visible = true;
-	exportRoot.top_panel.main_control_off.visible = false;
+	var menuStt = getCookie('mainMenu');
+	if(!menuStt){
+		exportRoot.main_control_btns.alpha = 0;
+		exportRoot.main_control_btns.visible = false;
+		exportRoot.top_panel.main_control_on.visible = true;
+		exportRoot.top_panel.main_control_off.visible = false;
+	}
 }
 
 function subtitleOn(){
@@ -354,4 +371,41 @@ function prevEnable(){
 
 function playParentFromChild(parent,position){
 	parent.gotoAndPlay(position);
+}
+
+function getCookie(name) {
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
+}
+
+function setCookie(name, value, days) {
+    var d = new Date;
+    d.setTime(d.getTime() + 24*60*60*1000*days);
+    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
+
+function deleteCookie(name) { setCookie(name, '', -1); }
+
+function mainCtrlSetOff(){
+	deleteCookie('mainMenu');
+	mainCtrlOff();
+}
+function mainCtrlSetOn(){
+	setCookie('mainMenu', 'on', 30)
+	mainCtrlOn();
+}
+
+function enablePause(){
+	exportRoot.main_control_btns.main_control_pause.visible = true;
+	exportRoot.main_control_btns.main_control_play.visible = false;
+}
+
+function playPauseLast(){
+	exportRoot.main_control_btns.main_control_pause.visible = false;
+	exportRoot.main_control_btns.main_control_play.visible = false;
+}
+
+function nextSceneLast(){
+	exportRoot.main_control_btns.main_control_next.visible = true;
+	exportRoot.main_control_btns.main_control_next.addEventListener('click', playPauseLast);
 }

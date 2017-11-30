@@ -15,6 +15,18 @@ lib.ssMetadata = [];
 p.nominalBounds = new cjs.Rectangle(0,0,145,260);
 
 
+(lib.Bitmap1 = function() {
+	this.initialize(img.Bitmap1);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,454,296);
+
+
+(lib.Bitmap2 = function() {
+	this.initialize(img.Bitmap2);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,583,635);
+
+
 (lib.ビットマップ4 = function() {
 	this.initialize(img.ビットマップ4);
 }).prototype = p = new cjs.Bitmap();
@@ -1897,6 +1909,32 @@ p.nominalBounds = new cjs.Rectangle(-9.1,-9,18.2,18);
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
 
 }).prototype = getMCSymbolPrototype(lib.Symbol32, new cjs.Rectangle(-23.3,-30.8,46.7,61.6), null);
+
+
+(lib.Symbol26 = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.instance = new lib.Bitmap2();
+	this.instance.parent = this;
+	this.instance.setTransform(-291.5,-317.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Symbol26, new cjs.Rectangle(-291.5,-317.5,583,635), null);
+
+
+(lib.Symbol25 = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.instance = new lib.Bitmap1();
+	this.instance.parent = this;
+	this.instance.setTransform(-227,-148);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Symbol25, new cjs.Rectangle(-227,-148,454,296), null);
 
 
 (lib.Symbol24 = function(mode,startPosition,loop) {
@@ -11096,11 +11134,13 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 		MODEL.BlinkNext();*/
 		this.stop();
 		blinkNext();
+		mainCtrlOn();
 	}
 	this.frame_504 = function() {
 		/* MODEL.SetCurrentNum(6);
 		getURL("javascript:void(SetCurrentScene(6))");
 		flg2=1;*/
+		mainCtrlOff();
 	}
 	this.frame_509 = function() {
 		playSound("Step3_title03wav");
@@ -11190,11 +11230,13 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 		MODEL.BlinkNext();*/
 		this.stop();
 		blinkNext();
+		mainCtrlOn();
 	}
 	this.frame_1622 = function() {
 		/* MODEL.SetCurrentNum(14);
 		getURL("javascript:void(SetCurrentScene(14))");
 		flg3=1;*/
+		mainCtrlOff();
 	}
 	this.frame_1627 = function() {
 		playSound("Step3_title05wav");
@@ -11239,10 +11281,12 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 		MODEL.BlinkNext();*/
 		this.stop();
 		blinkNext();
+		mainCtrlOn();
 	}
 	this.frame_2231 = function() {
 		/* MODEL.SetCurrentNum(19);
 		getURL("javascript:void(SetCurrentScene(19))");*/
+		mainCtrlOn();
 	}
 	this.frame_2235 = function() {
 		playSound("Step4_title01wav");
@@ -11272,13 +11316,14 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 		//メニューを表示します。
 		MODEL.UION("auto");
 		MODEL.BlinkNext();*/
-		
 		this.stop();
 		blinkNext();
+		mainCtrlOn();
 	}
 	this.frame_2581 = function() {
 		/* MODEL.SetCurrentNum(23);
 		getURL("javascript:void(SetCurrentScene(23))");*/
+		mainCtrlOff();
 	}
 	this.frame_2592 = function() {
 		/* MODEL.Pause();
@@ -11297,6 +11342,8 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 		*/
 		this.stop();
 		blinkNext();
+		mainCtrlOn();
+		nextSceneLast();
 	}
 
 	// actions tween:
@@ -11327,6 +11374,24 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{lab
 
 	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(4).to({_off:false},0).wait(2628));
 
+	// Layer_3
+	this.thumb_horizontal = new lib.Symbol25();
+	this.thumb_horizontal.name = "thumb_horizontal";
+	this.thumb_horizontal.parent = this;
+	this.thumb_horizontal.setTransform(353,214);
+	this.thumb_horizontal.visible = false;
+
+	this.timeline.addTween(cjs.Tween.get(this.thumb_horizontal).to({_off:true},4).wait(2628));
+
+	// Layer_5
+	this.thumb_vertical = new lib.Symbol26();
+	this.thumb_vertical.name = "thumb_vertical";
+	this.thumb_vertical.parent = this;
+	this.thumb_vertical.setTransform(353.5,404.5);
+	this.thumb_vertical.visible = false;
+
+	this.timeline.addTween(cjs.Tween.get(this.thumb_vertical).to({_off:true},4).wait(2628));
+
 	// レイアウト:横
 	this.horizontal = new lib.レイアウト横();
 	this.horizontal.name = "horizontal";
@@ -11355,6 +11420,8 @@ lib.properties = {
 	opacity: 1.00,
 	manifest: [
 		{src:"images/beth_01.png", id:"beth_01"},
+		{src:"images/Bitmap1.png", id:"Bitmap1"},
+		{src:"images/Bitmap2.png", id:"Bitmap2"},
 		{src:"images/ビットマップ4.png", id:"ビットマップ4"},
 		{src:"images/ビットマップ5.png", id:"ビットマップ5"},
 		{src:"images/ビットマップ6.png", id:"ビットマップ6"},

@@ -30,7 +30,12 @@ body {
     vertical-align: middle; max-height: 100%
 }
 @media only screen and (max-width: 1024px) {
-    #canvas { width: 100% !important;}
+    #canvas {
+        width: 100% !important;
+    }
     .preload { height:450; width: 100%; }
-    
+    #canvas.fit-height {
+        width: auto !important;
+        height: 100% !important;
+    }
 }

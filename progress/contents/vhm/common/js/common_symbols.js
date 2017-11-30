@@ -77,7 +77,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// 一時停止
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#666666").ss(1,1,1).p("AhngVIDPAAAhRAWICjAA");
+	this.shape.graphics.f().s("#666666").ss(1,1,1).p("AhRAWICjAAAhngVIDPAA");
 	this.shape.setTransform(0.3,1.9);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
@@ -150,7 +150,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// 一時停止
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#666666").ss(1,1,1).p("AhngVIDPAAAhRAWICjAA");
+	this.shape.graphics.f().s("#666666").ss(1,1,1).p("AhRAWICjAAAhngVIDPAA");
 	this.shape.setTransform(0.3,1.9);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
@@ -223,31 +223,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.homeicon, new cjs.Rectangle(-14.7,-14.1,29.8,28.6), null);
 
 
-(lib.play_bg = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		/* this.onRelease = function() {
-		};
-		this.useHandCursor = false;*/
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
-
-	// レイヤー 1
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#333333").s().p("Eg15AeFMAAAg8JMBrzAAAMAAAA8Jg");
-	this.shape.setTransform(345,192.5);
-
-	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.play_bg, new cjs.Rectangle(0,0,690,385), null);
-
-
 (lib.play_1 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
+if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	// レイヤー 1
 	this.instance = new lib.play();
@@ -873,14 +850,6 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get(this.play_img).wait(20));
 
-	// レイヤー 2
-	this.instance = new lib.play_bg();
-	this.instance.parent = this;
-	this.instance.setTransform(345,411.5,1,2.138,0,0,0,345,192.5);
-	this.instance.alpha = 0.09;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(19).to({scaleY:1,y:192.5},0).wait(1));
-
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,690,823);
 
@@ -951,12 +920,12 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
-	this.frame_5 = function() {
+	this.frame_9 = function() {
 		this.gotoAndPlay(1);
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(5).call(this.frame_5).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(9).call(this.frame_9).wait(1));
 
 	// Layer_1
 	this.instance = new lib.IFマーク1();
@@ -965,7 +934,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 	this.instance.filters = [new cjs.ColorFilter(1, 1, 1, 1, -150, 100, 150, 0)];
 	this.instance.cache(-15,-15,28,30);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).to({_off:true},3).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({_off:true},5).wait(5));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-11.9,-13.1,24.4,26);
@@ -1131,7 +1100,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 	this.timeline.addTween(cjs.Tween.get(this.main_control_btns).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(345,225,690,823);
+p.nominalBounds = new cjs.Rectangle(345,225,690,452);
 // library properties:
 lib.properties = {
 	id: '3DED92BA2B85C1499B6F52630496A342',
