@@ -202,7 +202,7 @@ function handleComplete(evt,comp,anim_options) {
 	exportRoot.main_control_btns.main_control_pause.addEventListener('click', pauseMainMC);
 	exportRoot.play_btn.addEventListener('click', startAnimation);
 	exportRoot.main_control_btns.main_control_play.addEventListener('click', playMainMC);
-	exportRoot.main_control_btns.main_control_close.addEventListener('click', mainCtrlOff);
+	exportRoot.main_control_btns.main_control_close.addEventListener('click', mainCtrlSetOff);
 	mainctrl_y = exportRoot.main_control_btns.y;
 	exportRoot.main_control_btns.visible = false;
 	play_y = exportRoot.play_btn.play_img.y;
