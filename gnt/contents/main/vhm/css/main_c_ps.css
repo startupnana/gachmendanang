@@ -1,0 +1,64 @@
+@charset "utf-8";
+*:not(input):not(textarea):not(select),
+input[type=image],
+input[type=file],
+input[type=submit],
+input[type=button],
+input[type=reset] {
+	-webkit-user-select: none;
+}
+html { 
+	overflow: scroll;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	-webkit-user-select: none;
+	}
+body {
+	margin:0;
+	padding:0;
+}
+img{
+	border:0;
+}
+#canvas{
+	position:absolute;
+	top:0;
+	left:0;
+	width:700px;
+	height:845px;
+}
+#canvcontainer{
+	position:absolute;
+	top:0;
+	left:0;
+	width:700px;
+	height:845px;
+}
+#loadingcontainers{
+	position:absolute;
+	top:0;
+	left:0;
+	width:700px;
+	height:450px;
+	pointer-events: none;
+}
+#loading{
+	position:absolute; top:174px; left:317px;
+	z-index:500;
+}
+#start_modal{
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	-webkit-background-size: 100% 100%;
+	visibility:hidden;
+}
+#play_btn{
+	text-align:center;
+	margin:70px auto;
+	background-image: url("../img/play.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	width:213px;
+	height:310px;
+}
